@@ -87,6 +87,7 @@ namespace SqlLoginFormApp
             this.signInBtn.TabIndex = 5;
             this.signInBtn.Text = "Sign in";
             this.signInBtn.UseVisualStyleBackColor = false;
+            this.signInBtn.Click += new System.EventHandler(this.signInBtn_Click);
             // 
             // passwordField
             // 

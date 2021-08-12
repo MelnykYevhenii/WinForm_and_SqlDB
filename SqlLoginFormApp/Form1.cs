@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -64,6 +65,34 @@ namespace SqlLoginFormApp
         {
             lastPoint = new Point(e.X, e.Y);
         }
-       
+
+        private void signInBtn_Click(object sender, EventArgs e)
+        {
+            string userLogin = loginField.Text; // get login value
+            string userPassword = passwordField.Text; // get password value
+
+            DB db = new DB();
+
+            DataTable tbl = new DataTable();
+
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+
+            MySqlCommand cmd = new MySqlCommand("select * from `users` where `login` = @userLogin and `password` = @userPassword", 
+                db.getConnection());
+            cmd.Parameters.Add("@userLogin",MySqlDbType.VarChar).Value = userLogin;
+            cmd.Parameters.Add("@userPassword", MySqlDbType.VarChar).Value = userPassword;
+
+            adapter.SelectCommand = cmd;
+            adapter.Fill(tbl);
+
+            if(tbl.Rows.Count > 0)
+            {
+                MessageBox.Show("Пользователь существует в БД.");
+            }
+            else
+            {
+                MessageBox.Show("Пользователь не зарегистрирован.");
+            }
+        }
     }
 }
